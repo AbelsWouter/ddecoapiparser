@@ -134,7 +134,7 @@ def parse_data_dump(api_key: str,
                 request_url, headers={"Accept": "application/json", "x-api-key": api_key}).json()
             response = request['result']
             json_request_list.extend(response)
-                
+            print(f'Gathering data from {page}...')
             if check_ending(request):
                 return return_dataframe(json_request_list, parse_watertypes)
 

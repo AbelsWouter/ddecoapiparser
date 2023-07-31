@@ -1,4 +1,4 @@
-# DDECOAPIParser
+# ddecoapiparser
 
 This Package contains the code to request data via the DD-ECO-API and parse the returned JSON to pd.DataFrame
 
