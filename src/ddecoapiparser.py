@@ -67,6 +67,7 @@ def check_ending(response: list) -> bool:
         bool: True if response paging next is not an empty string.
     """
     if not response['paging']['next']:
+        print('Finished!')
         return True
     else:
         return False
@@ -134,7 +135,7 @@ def parse_data_dump(api_key: str,
                 request_url, headers={"Accept": "application/json", "x-api-key": api_key}).json()
             response = request['result']
             json_request_list.extend(response)
-            print(f'Gathering data from {page}...')
+            print(f'Gathering data from the DD-ECO-API, currently on page: {page}...')
             if check_ending(request):
                 return return_dataframe(json_request_list, parse_watertypes)
 
@@ -163,4 +164,3 @@ def return_dataframe(json_object: list,
                             pd.json_normalize(df["watertypes"].apply(lambda x: x[0] if isinstance(x, list) else watertypes_nan_dict))], axis=1)
     else:
         return df
-
