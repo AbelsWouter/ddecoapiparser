@@ -97,10 +97,10 @@ def return_query(query_url: str,
     try:
         request = requests.get(
             request_url, headers={"Accept": "application/json", "x-api-key": api_key})
-        return request.url
-            
+        return request.url 
     except requests.HTTPError as e:
         http_error_check(e)
+        return e
 
 def parse_data_dump(api_key: str,
                     query_url: str,
@@ -138,13 +138,17 @@ def parse_data_dump(api_key: str,
             print(f'Gathering data from the DD-ECO-API, currently on page: {page}...')
             if check_ending(request):
                 return return_dataframe(json_request_list, parse_watertypes)
-
             page += 1
 
         except requests.HTTPError as e:
             if http_error_check(e):
                 print(e)
-                break
+                return e
+        
+        except KeyError as k:
+            print('The following error occured: ')
+            return print(request['errors'])
+
 
 def return_dataframe(json_object: list,
                         parse_watertypes: bool) -> pd.DataFrame:
@@ -162,5 +166,7 @@ def return_dataframe(json_object: list,
         watertypes_nan_dict = {'classificationsystem': np.nan, 'watertypecode': np.nan}
         return pd.concat([df.drop("watertypes", axis=1),
                             pd.json_normalize(df["watertypes"].apply(lambda x: x[0] if isinstance(x, list) else watertypes_nan_dict))], axis=1)
+    elif df.empty:
+        return 'No data has been retrieved, try again with different filter criteria.'
     else:
         return df
