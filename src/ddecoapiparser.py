@@ -102,8 +102,9 @@ def return_query(query_url: str,
         http_error_check(e)
         return e
 
-def parse_data_dump(api_key: str,
-                    query_url: str,
+                    
+def parse_data_dump(query_url: str ,
+                    api_key: str = None,
                     query_filter: str = None,
                     skip_properties: str = None,
                     page: int = 1,
@@ -113,8 +114,8 @@ def parse_data_dump(api_key: str,
 
 
     Args:
-        api_key (str, optional): API key for identification as company. Defaults to None.
         query_url (str): API endpoint for query
+        api_key (str, optional): API key for identification as company. Defaults to None.
         query_filter (str, optional): Filtering within API. Defaults to None.
         skip_properties (str, optional): Properties to skip in response. Defaults to None.
         page (int, optional): Starting page number. Defaults to 1.
